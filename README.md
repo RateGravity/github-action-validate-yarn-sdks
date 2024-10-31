@@ -5,17 +5,17 @@ A simple script that will recursively examine all SDKs in your `.yarn/sdks` fold
 ## Usage
 
 ```yml
-
 jobs:
   ...
   ValidateYarnSDKs:
-    - steps:
-        - name: Checking out repository
-          uses: actions/checkout@v3
-        ...
-        - name: Validate Yarn SDKs
-          uses: RateGravity/github-action-validate-yarn-sdks@latest
-          with:
-            package-json: package.json
-            sdk-directory: .yarn/sdks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out repository
+        uses: actions/checkout@v3
+
+      - name: Validate Yarn SDKs
+        uses: RateGravity/github-action-validate-yarn-sdks@main
+        with:
+          package-json: package.json
+          sdk-directory: .yarn/sdks
 ```

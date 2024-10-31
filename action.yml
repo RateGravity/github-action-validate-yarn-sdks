@@ -9,11 +9,9 @@ inputs:
     default: .yarn/sdks
 
 runs:
-  using: composite
-  steps:
-    - name: Validate Yarn SDKs
-      shell: bash
-      run: entry.sh ${{ inputs.package-json }} ${{ inputs.sdk-directory }}
+  using: node20
+  main: index.js ${{ inputs.package-json }} ${{ inputs.sdk-directory }}
+
 branding:
   icon: box
   color: purple
