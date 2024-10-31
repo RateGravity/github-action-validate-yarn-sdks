@@ -1,3 +1,4 @@
+const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
 
@@ -37,7 +38,7 @@ const validate = (rootPackageJsonPath, yarnSdkFolderPath) => {
       rootPackageJson.devDependencies[sdkName] || rootPackageJson.dependencies[sdkName];
 
     if (!rootDependencyVersion) {
-      console.warn(
+      core.warning(
         `Yarn SDK ${file} with version ${sdkVersionNumeric} was not found in root package.json`
       );
       return;
@@ -46,7 +47,7 @@ const validate = (rootPackageJsonPath, yarnSdkFolderPath) => {
     const rootDependencyVersionNumeric = rootDependencyVersion.match(/[0-9]+(\.[0-9]+)*/)[0];
 
     if (sdkVersionNumeric !== rootDependencyVersionNumeric) {
-      console.error(
+      core.error(
         `Yarn SDK version mismatch found in ${file} -- Expected version: ${rootDependencyVersionNumeric}, but found: ${sdkVersionNumeric}`
       );
       errors = 1;
@@ -54,21 +55,24 @@ const validate = (rootPackageJsonPath, yarnSdkFolderPath) => {
   });
 
   if (errors === 1) {
-    process.exit(1);
+    core.setFailed();
   }
 
-  console.log(
-    'All Yarn SDK versions match the corresponding dependencies in the root package.json'
-  );
-  process.exit(0);
+  core.info('All Yarn SDK versions match the corresponding dependencies in the root package.json');
+  return;
 };
 
-// Check if the correct number of arguments is provided
-if (process.argv.length !== 4) {
-  console.error('Usage: node index.js <path_to_root_package.json> <path_to_yarn_sdk_folder>');
-  process.exit(1);
+const packageJson = path.resolve(core.getInput('package-json'));
+const sdkDirectory = path.resolve(core.getInput('sdk-directory'));
+
+if (!fs.existsSync(packageJson)) {
+  throw new Error(`package.json not found at path: ${packageJsonPath}`);
 }
 
-validate(process.argv[2], process.argv[3]);
+if (!fs.existsSync(sdkDirectory)) {
+  throw new Error(`SDK directory not found at path: ${sdkDirectory}`);
+}
+
+validate(packageJson, sdkDirectory);
 
 module.exports = { validate };
