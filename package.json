@@ -7,7 +7,9 @@
   "license": "MIT",
   "packageManager": "yarn@4.5.1",
   "scripts": {
+    "build": "ncc build index.js --minify -o dist",
     "format": "prettier --write '**/*.{js,json,md}'",
+    "prepare": "husky",
     "test": "jest ./__tests__/**/*.test.js"
   },
   "dependencies": {
@@ -15,6 +17,8 @@
     "@actions/github": "^6.0.0"
   },
   "devDependencies": {
+    "@vercel/ncc": "^0.38.2",
+    "husky": "^9.1.6",
     "jest": "^29.7.0",
     "prettier": "^3.3.3"
   }
