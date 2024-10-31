@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "test.dependency.good": "1.0.0",
+    "test.dependency.bad": "1.0.0"
+  },
+  "devDependencies": {
+    "test.dev-dependency.good": "1.0.0",
+    "test.dev-dependency.bad": "1.0.0"
+  }
+}

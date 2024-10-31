@@ -1,0 +1,19 @@
+name: Validate Yarn SDKs
+description: Ensure that the SDKs for your yarn repo match the versions in your package.json
+inputs:
+  package-json:
+    description: package.json file to compare SDK versions against
+    default: package.json
+  sdk-directory:
+    description: Folder in which yarn SDKs are stored
+    default: .yarn/sdks
+
+runs:
+  using: composite
+  steps:
+    - name: Validate Yarn SDKs
+      shell: bash
+      run: entry.sh ${{ inputs.package-json }} ${{ inputs.sdk-directory }}
+branding:
+  icon: box
+  color: purple
