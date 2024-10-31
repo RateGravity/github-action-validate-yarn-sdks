@@ -56,6 +56,7 @@ const validate = (rootPackageJsonPath, yarnSdkFolderPath) => {
 
   if (errors === 1) {
     core.setFailed();
+    return;
   }
 
   core.info('All Yarn SDK versions match the corresponding dependencies in the root package.json');
